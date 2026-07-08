@@ -16,9 +16,3 @@
 ## 📖 项目简介
 
 收录常见Web应用系统漏洞验证POC脚本，支持单目标和批量检测。
-
-
-### 安装依赖
-
-```bash
-pip install -r requirements.txt
