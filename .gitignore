@@ -1,0 +1,24 @@
+# 缓存和临时文件
+__pycache__/
+*.pyc
+*.pyo
+
+# 结果文件（可能包含敏感信息）
+success.txt
+result.txt
+
+# 目标列表（如果包含真实IP/域名，建议忽略，或清空后提交）
+urls.txt
+
+# IDE配置
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# 系统文件
+.DS_Store
+Thumbs.db
+
+# 环境变量文件
+.env

